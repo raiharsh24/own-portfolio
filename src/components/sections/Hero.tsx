@@ -29,8 +29,15 @@ export default function Hero() {
 
       <div className="pointer-events-none absolute inset-0 -z-[4] bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.6))]" />
 
-      {/* Content */}
-      <div className="relative z-0 mx-auto w-full max-w-6xl py-24">
+      {/*
+        Content sits ABOVE the badge overlay (z-10 > the badge mount's z-[2]) so
+        its buttons are clickable — the full-bleed badge canvas is pointer-events
+        interactive on desktop and would otherwise swallow every click. The
+        wrapper itself is pointer-events-none so empty space still falls through
+        to the badge (keeping the card draggable everywhere except directly on a
+        control); the interactive rows below opt back in with pointer-events-auto.
+      */}
+      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-6xl py-24">
         <div className="max-w-2xl">
           <motion.span
             {...enter(0)}
@@ -68,7 +75,7 @@ export default function Hero() {
 
           <motion.div
             {...enter(0.34)}
-            className="mt-10 flex flex-col gap-4 sm:flex-row"
+            className="pointer-events-auto mt-10 flex flex-col gap-4 sm:flex-row"
           >
             <a
               href="#work"
@@ -111,7 +118,7 @@ export default function Hero() {
       <a
         href="#work"
         aria-label="Scroll to work"
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/40 transition-colors hover:text-accent"
+        className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 text-white/40 transition-colors hover:text-accent"
       >
         <ChevronDown className="animate-bounce" size={28} />
       </a>
